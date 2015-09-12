@@ -1,0 +1,17 @@
+{
+    "name": "acelaya/slim-cli-example",
+    "description": "How to use Slim framework to dipatch complex CLI requests",
+    "require": {
+        "slim/slim": "^2.6",
+        "slimcontroller/slimcontroller": "^0.4.3",
+        "acelaya/slim-container-sm": "^0.1.3",
+        "zendframework/zend-servicemanager": "^2.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alejandro Celaya",
+            "email": "alejandro@alejandrocelaya.com"
+        }
+    ]
+}
