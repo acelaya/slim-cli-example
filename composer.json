@@ -13,5 +13,10 @@
             "name": "Alejandro Celaya",
             "email": "alejandro@alejandrocelaya.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Acelaya\\SlimCli\\": "src"
+        }
+    }
 }

@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+use SlimController\Slim;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+/** @var Slim $app */
+$app = include __DIR__ . '/../config/app.php';
+include __DIR__ . '/../config/routes.php';
+$app->run();
