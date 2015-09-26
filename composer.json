@@ -5,7 +5,8 @@
         "slim/slim": "^2.6",
         "slimcontroller/slimcontroller": "^0.4.3",
         "acelaya/slim-container-sm": "^0.1.3",
-        "zendframework/zend-servicemanager": "^2.6"
+        "zendframework/zend-servicemanager": "^2.6",
+        "nategood/commando": "dev-master#700b0f667d76e5257996f02470e5f7a4bc2c0a01"
     },
     "license": "MIT",
     "authors": [

@@ -1,8 +1,11 @@
 <?php
 
-// Generate the pathinfo by imploding the script arguments
+// Generate the pathinfo by getting the first argument of the script
 array_shift($argv);
-$pathinfo = implode(' ', $argv);
+$pathinfo = array_shift($argv);
+if (empty($pathinfo)) {
+    $pathinfo = '--help';
+}
 
 // Create our app instance
 $app = new SlimController\Slim([
