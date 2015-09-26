@@ -6,7 +6,7 @@ use Slim\Route;
 use Slim\Slim;
 use SlimController\SlimController;
 
-abstract class AbstractConsoleController extends SlimController implements ConsoleAwareInterface
+abstract class  AbstractConsoleController extends SlimController implements ConsoleAwareInterface
 {
     /**
      * @var Command
@@ -39,4 +39,9 @@ abstract class AbstractConsoleController extends SlimController implements Conso
 
         return $validCommands;
     }
+
+    /**
+     * This method is called at route dispatch
+     */
+    abstract public function callAction();
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Acelaya\SlimCli\Controller;
 
-class MainController extends AbstractConsoleController
+class GreetingController extends AbstractConsoleController
 {
     /**
      * Initializes the command
@@ -18,11 +18,15 @@ class MainController extends AbstractConsoleController
                   ->boolean();
     }
 
-    public function greetingAction()
+    /**
+     * This method is called at route dispatch
+     */
+    public function callAction()
     {
         $pattern = 'Hello %s!!';
         $capitalized = $this->cmd['uppercase'];
         $greeting = sprintf($pattern, $this->cmd['name']);
+
         echo $capitalized ? strtoupper($greeting) : $greeting;
         echo PHP_EOL;
     }

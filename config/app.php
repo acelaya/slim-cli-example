@@ -5,6 +5,8 @@ array_shift($argv);
 $pathinfo = array_shift($argv);
 if (empty($pathinfo)) {
     $pathinfo = '--help';
+} else {
+    $pathinfo = implode('/', explode(':', $pathinfo));
 }
 
 // Create our app instance
@@ -23,8 +25,8 @@ $app->environment = Slim\Environment::mock([
 
 // CLI-compatible not found error handler
 $app->notFound(function () use ($app) {
-    $url = $app->environment['PATH_INFO'];
-    echo "Error: Cannot route to $url" . PHP_EOL;
+    $command = $app->environment['PATH_INFO'];
+    echo "Error: Cannot route to command $command" . PHP_EOL;
     $app->stop();
 });
 
