@@ -1,5 +1,7 @@
 <?php
 
+use League\CLImate\CLImate;
+
 // Generate the pathinfo by getting the first argument of the script
 array_shift($argv); // Discard the filename
 $pathinfo = array_shift($argv);
@@ -21,20 +23,21 @@ $app->environment = Slim\Environment::mock([
     'PATH_INFO' => $pathinfo
 ]);
 
-$printCommands = function () use ($app) {
-    echo 'Available commands:' . PHP_EOL;
-    foreach ($app->router()->getNamedRoutes() as $route) {
-        echo '    ' . $route->getPattern() . PHP_EOL;
-    }
-    echo PHP_EOL;
-};
 // Define the help command. If it doesn't have a name it won't include itself
-$app->get('--help', $printCommands);
+$app->get('--help', function () use ($app) {
+    $writer = new CLImate();
+    $writer->bold()->out('Available commands:');
+    foreach ($app->router()->getNamedRoutes() as $route) {
+        $writer->green()->out('    ' . $route->getPattern());
+    }
+});
 // CLI-compatible not found error handler
-$app->notFound(function () use ($app, $printCommands) {
+$app->notFound(function () use ($app) {
+    $writer = new CLImate();
     $command = $app->environment['PATH_INFO'];
-    echo sprintf('Error: Cannot route to command "%s"', $command) . PHP_EOL;
-    $printCommands();
+    $writer->red()->bold()->out(sprintf('Error: Cannot route to command "%s"', $command));
+    $helpRoute = $app->router()->getMatchedRoutes('GET', '--help', true);
+    $helpRoute[0]->dispatch();
     $app->stop();
 });
 
