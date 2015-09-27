@@ -13,12 +13,10 @@ For example, let's assume this is our `bin/run` script.
 ```php
 #!/usr/bin/env php
 <?php
-array_shift($argv);
+array_shift($argv); // Discard the filename
 $pathinfo = array_shift($argv);
 if (empty($pathinfo)) {
     $pathinfo = '--help';
-} else {
-    $pathinfo = implode('/', explode(':', $pathinfo));
 }
 
 $app = new Slim(...);
@@ -26,7 +24,9 @@ $app->environment = Slim\Environment::mock([
     'PATH_INFO' => $pathinfo
 ]);
 
-$app->get('foo/bar', function () {
+// [...] Define help command and error management
+
+$app->get('foo_bar', function () {
     echo 'Hello!!';
 });
 
@@ -35,12 +35,10 @@ $app->run();
 
 It catches the first argument and maps it to a route path, making Slim to think this is an HTTP request. If no argument is provided, it maps it to a `--help` path that will be used to display available commands.
 
-It replaces the colon characters by slashes, because Slim's match uses a regular expresison that does not properly work with colons.
-
-So, if we want to run the foo/bar route, we will have tu execute this command.
+So, if we want to run the foo_bar route, we will have tu execute this command.
 
 ```bash
-bin/run foo:bar
+bin/run foo_bar
 ```
 
 It will print "Hello!!".

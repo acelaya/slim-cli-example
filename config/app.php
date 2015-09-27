@@ -1,12 +1,10 @@
 <?php
 
 // Generate the pathinfo by getting the first argument of the script
-array_shift($argv);
+array_shift($argv); // Discard the filename
 $pathinfo = array_shift($argv);
 if (empty($pathinfo)) {
     $pathinfo = '--help';
-} else {
-    $pathinfo = implode('/', explode(':', $pathinfo));
 }
 
 // Create our app instance
@@ -23,10 +21,20 @@ $app->environment = Slim\Environment::mock([
     'PATH_INFO' => $pathinfo
 ]);
 
+$printCommands = function () use ($app) {
+    echo 'Available commands:' . PHP_EOL;
+    foreach ($app->router()->getNamedRoutes() as $route) {
+        echo '    ' . $route->getPattern() . PHP_EOL;
+    }
+    echo PHP_EOL;
+};
+// Define the help command. If it doesn't have a name it won't include itself
+$app->get('--help', $printCommands);
 // CLI-compatible not found error handler
-$app->notFound(function () use ($app) {
+$app->notFound(function () use ($app, $printCommands) {
     $command = $app->environment['PATH_INFO'];
-    echo "Error: Cannot route to command $command" . PHP_EOL;
+    echo sprintf('Error: Cannot route to command "%s"', $command) . PHP_EOL;
+    $printCommands();
     $app->stop();
 });
 
