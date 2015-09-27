@@ -8,7 +8,7 @@ class ReportController extends AbstractConsoleController
      */
     public function initCommand()
     {
-        $this->cmd->option()
+        $this->cliReader->option()
                   ->alias('id')
                   ->describedAs('The client ID. Must be a number.')
                   ->must(function ($argument) {
@@ -22,11 +22,12 @@ class ReportController extends AbstractConsoleController
      */
     public function callAction()
     {
-        $id = $this->cmd['id'];
-        echo sprintf('Generating report for client with id %s', $id) . PHP_EOL;
+        $id = $this->cliReader['id'];
+        $this->cliWriter->out(sprintf('Generating report for client with id %s', $id));
         for ($i = 0; $i < 20; $i++) {
-            echo '.';
+            $this->cliWriter->inline('.');
         }
-        echo PHP_EOL . 'Success!' . PHP_EOL;
+        $this->cliWriter->out('');
+        $this->cliWriter->green()->bold()->out('Success!!');
     }
 }

@@ -2,6 +2,7 @@
 namespace Acelaya\SlimCli\Controller;
 
 use Commando\Command;
+use League\CLImate\CLImate;
 use Slim\Route;
 use Slim\Slim;
 use SlimController\SlimController;
@@ -11,16 +12,21 @@ abstract class  AbstractConsoleController extends SlimController implements Cons
     /**
      * @var Command
      */
-    protected $cmd;
+    protected $cliReader;
+    /**
+     * @var CLImate
+     */
+    protected $cliWriter;
 
-    public function __construct(Slim $app, Command $command = null)
+    public function __construct(Slim $app, Command $command = null, CLImate $climate = null)
     {
         parent::__construct($app);
-        $this->cmd = $command ?: new Command();
+        $this->cliReader = $command ?: new Command();
+        $this->cliWriter = $climate ?: new CLImate();
 
         // Define the first mandatory command
         $currentCommand = $this->app->router()->getCurrentRoute()->getPattern();
-        $this->cmd->option()
+        $this->cliReader->option()
                   ->require()
                   ->describedAs('The command to execute')
                   ->must(function ($command) use ($currentCommand) {

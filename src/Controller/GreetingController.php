@@ -8,14 +8,14 @@ class GreetingController extends AbstractConsoleController
      */
     public function initCommand()
     {
-        $this->cmd->option('name')
-                  ->describedAs('The name to be displayed in the greeting')
-                  ->require();
+        $this->cliReader->option('name')
+                        ->describedAs('The name to be displayed in the greeting')
+                        ->require();
 
-        $this->cmd->option('uppercase')
-                  ->aka('u')
-                  ->describedAs('If present, it will display the greetings uppercased')
-                  ->boolean();
+        $this->cliReader->option('uppercase')
+                        ->aka('u')
+                        ->describedAs('If present, it will display the greetings uppercased')
+                        ->boolean();
     }
 
     /**
@@ -24,10 +24,9 @@ class GreetingController extends AbstractConsoleController
     public function callAction()
     {
         $pattern = 'Hello %s!!';
-        $capitalized = $this->cmd['uppercase'];
-        $greeting = sprintf($pattern, $this->cmd['name']);
+        $capitalized = $this->cliReader['uppercase'];
+        $greeting = sprintf($pattern, $this->cliReader['name']);
 
-        echo $capitalized ? strtoupper($greeting) : $greeting;
-        echo PHP_EOL;
+        $this->cliWriter->green()->out($capitalized ? strtoupper($greeting) : $greeting);
     }
 }
