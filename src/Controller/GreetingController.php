@@ -14,7 +14,7 @@ class GreetingController extends AbstractConsoleController
 
         $this->cliReader->option('uppercase')
                         ->aka('u')
-                        ->describedAs('If present, it will display the greetings uppercased')
+                        ->describedAs('If present, it will display the greetings in uppercase')
                         ->boolean();
     }
 
